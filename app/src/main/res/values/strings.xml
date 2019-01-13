@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">UserInfo</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_phone">Phone</string>
+    <string name="hint_email">Email</string>
+    <string name="helper_name">Input non-empty name</string>
+    <string name="helper_phone">Input valid phone number</string>
+    <string name="helper_email">Input valid email</string>
+    <string name="ok_btn_text">OK</string>
+</resources>
