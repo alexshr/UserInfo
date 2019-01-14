@@ -31,13 +31,20 @@ public class InputFragment extends Fragment {
     MaterialCardView materialCardView;
     @BindView(R.id.validatedForm)
     ValidatedFrameLayout validatedForm;
-    private MainViewModel mViewModel;
+
+    private MainViewModel viewModel;
+
     private Unbinder unbinder;
+
+    private Manager manager;
 
     @OnClick(R.id.okBtn)
     void submit() {
-
+        viewModel.setUser(new User(nameInput.getText(), emailInput.getText(), phoneInput.getText()));
+        manager.showDisplayFragment();
     }
+
+
 
     @Nullable
     @Override
@@ -46,16 +53,23 @@ public class InputFragment extends Fragment {
         View view = inflater.inflate(R.layout.input_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
 
+        viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+
+        User user = viewModel.getUser();
+
+        //for back stack
+        if (user != null) {
+            nameInput.setText(user.getName());
+            emailInput.setText(user.getEmail());
+            phoneInput.setText(user.getPhone());
+        }
+
+        manager = (Manager) getActivity();
+
         validatedForm.addValidationListener(okBtn::setEnabled);
         validatedForm.validate();
 
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
     }
 
     @Override

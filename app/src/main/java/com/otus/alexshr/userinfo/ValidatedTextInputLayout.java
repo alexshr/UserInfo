@@ -145,7 +145,8 @@ public class ValidatedTextInputLayout extends TextInputLayout {
         Timber.d("hint=%s, str=%s, isValidBefore=%s; isValid=%s", getHint(), str, isValidBefore, isValid);
 
         if (isValidBefore == null || isValid != isValidBefore) {
-            for (Consumer<ValidatedTextInputLayout> listener : validationListeners) listener.accept(this);
+            for (Consumer<ValidatedTextInputLayout> listener : validationListeners)
+                listener.accept(this);
         }
     }
 
@@ -159,6 +160,14 @@ public class ValidatedTextInputLayout extends TextInputLayout {
 
     public void removeValidationListener(Consumer<Boolean> validationListener) {
         validationListeners.remove(validationListener);
+    }
+
+    public String getText() {
+        return getEditText().getText().toString();
+    }
+
+    public void setText(String text) {
+        getEditText().setText(text);
     }
 
     private static class TextSimplyWatcher implements TextWatcher {

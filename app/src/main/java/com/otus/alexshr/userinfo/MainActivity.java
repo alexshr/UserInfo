@@ -1,7 +1,8 @@
 package com.otus.alexshr.userinfo;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements Manager {
 
@@ -26,6 +27,6 @@ public class MainActivity extends AppCompatActivity implements Manager {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, new DisplayFragment())
                 .addToBackStack(null)
-                .commitNow();
+                .commit();
     }
 }

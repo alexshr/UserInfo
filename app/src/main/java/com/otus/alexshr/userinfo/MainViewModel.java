@@ -1,9 +1,11 @@
 package com.otus.alexshr.userinfo;
 
 import androidx.lifecycle.ViewModel;
+import lombok.Getter;
+import lombok.Setter;
 
 public class MainViewModel extends ViewModel {
-    private String name;
-    private String email;
-    private String phone;
+    @Getter
+    @Setter
+    private User user;
 }
