@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="card_margin">8dp</dimen>
     <dimen name="text_input_margin_top">24dp</dimen>
+    <dimen name="input_btn_margin_top">32dp</dimen>
+    <dimen name="display_text_margin_top">8dp</dimen>
 </resources>

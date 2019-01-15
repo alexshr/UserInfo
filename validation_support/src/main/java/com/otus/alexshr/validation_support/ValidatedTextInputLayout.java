@@ -1,4 +1,4 @@
-package com.otus.alexshr.userinfo;
+package com.otus.alexshr.validation_support;
 
 import android.content.Context;
 import android.content.res.TypedArray;

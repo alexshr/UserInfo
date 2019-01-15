@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.otus.alexshr.userinfo.ValidatedFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.otus.alexshr.validation_support.ValidatedFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/validatedForm"
@@ -8,96 +8,75 @@
     android:layout_height="match_parent"
     tools:context=".InputFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
+        style="@style/card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".InputFragment">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/card_margin"
-            app:contentPadding="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.otus.alexshr.validation_support.ValidatedTextInputLayout
+                android:id="@+id/nameInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_name"
+                app:helperText="@string/helper_name"
+                app:regexp="@string/regexp_nonempty">
 
-                <com.otus.alexshr.userinfo.ValidatedTextInputLayout
-                    android:id="@+id/nameInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_name"
-                    app:helperText="@string/helper_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:regexp="@string/regexp_nonempty">
+                    android:inputType="textPersonName"
+                    tools:text="Alex" />
+            </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        tools:text="Alex" />
-                </com.otus.alexshr.userinfo.ValidatedTextInputLayout>
+            <com.otus.alexshr.validation_support.ValidatedTextInputLayout
+                android:id="@+id/emailInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:hint="@string/hint_email"
+                app:helperText="@string/helper_email">
 
-                <com.otus.alexshr.userinfo.ValidatedTextInputLayout
-                    android:id="@+id/emailInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:hint="@string/hint_email"
-                    app:helperText="@string/helper_email"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/nameInput">
+                    android:inputType="textEmailAddress"
+                    tools:text="a@b.ru" />
+            </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        tools:text="a@b.ru" />
-                </com.otus.alexshr.userinfo.ValidatedTextInputLayout>
+            <com.otus.alexshr.validation_support.ValidatedTextInputLayout
+                android:id="@+id/phoneInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_input_margin_top"
+                android:hint="@string/hint_phone"
+                app:helperText="@string/helper_phone">
 
-                <com.otus.alexshr.userinfo.ValidatedTextInputLayout
-                    android:id="@+id/phoneInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:hint="@string/hint_phone"
-                    app:helperText="@string/helper_phone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/emailInput">
+                    android:digits="0123456789+- "
+                    android:inputType="phone"
+                    tools:text="+777777" />
+            </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:digits="0123456789+- "
-                        android:inputType="phone"
-                        tools:text="+777777" />
-                </com.otus.alexshr.userinfo.ValidatedTextInputLayout>
+            <Button
+                android:id="@+id/okBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/input_btn_margin_top"
+                android:text="@string/ok_btn_text" />
 
-                <Button
-                    android:id="@+id/okBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:text="@string/ok_btn_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/phoneInput" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.otus.alexshr.userinfo.ValidatedFrameLayout>
+</com.otus.alexshr.validation_support.ValidatedFrameLayout>

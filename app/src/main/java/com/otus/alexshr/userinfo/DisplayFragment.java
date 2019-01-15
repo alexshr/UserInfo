@@ -21,6 +21,11 @@ public class DisplayFragment extends Fragment {
 
     private MainViewModel viewModel;
 
+    public DisplayFragment() {
+        super();
+        setRetainInstance(true);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

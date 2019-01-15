@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.android.material.card.MaterialCardView;
+import com.otus.alexshr.validation_support.ValidatedFrameLayout;
+import com.otus.alexshr.validation_support.ValidatedTextInputLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,13 +41,16 @@ public class InputFragment extends Fragment {
 
     private Manager manager;
 
+    public InputFragment() {
+        setRetainInstance(true);
+    }
+
     @OnClick(R.id.okBtn)
     void submit() {
         viewModel.setUser(new User(nameInput.getText(), emailInput.getText(), phoneInput.getText()));
+
         manager.showDisplayFragment();
     }
-
-
 
     @Nullable
     @Override
@@ -60,13 +65,12 @@ public class InputFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
-        User user = viewModel.getUser();
-
         //for back stack
-        if (user != null) {
-            nameInput.setText(user.getName());
-            emailInput.setText(user.getEmail());
-            phoneInput.setText(user.getPhone());
+        if (viewModel.getUser() != null) {
+            nameInput.setText(viewModel.getUser().getName());
+            emailInput.setText(viewModel.getUser().getEmail());
+            phoneInput.setText(viewModel.getUser().getPhone());
+            viewModel.setUser(null);
         }
 
         manager = (Manager) getActivity();
