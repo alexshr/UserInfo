@@ -9,6 +9,7 @@ import com.otus.alexshr.userinfo.databinding.DisplayFragmentBinding;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -25,6 +26,9 @@ public class DisplayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.display_title);
+
         DisplayFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.display_fragment,
                 container, false);
 
@@ -33,5 +37,4 @@ public class DisplayFragment extends Fragment {
 
         return binding.getRoot();
     }
-
 }

@@ -15,6 +15,10 @@ import timber.log.Timber;
 
 /**
  * Created by alexshr
+ *
+ * This container is like a form for any amount of ValidTextInputLayout inside (on any deep).
+ * The form is valid  if all fields are valid and subscribers receive info about form validation status.
+ * It could be used eg to control  "Save" button state and so on
  */
 public class ValidatedFrameLayout extends FrameLayout {
 
