@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,12 +15,12 @@ import timber.log.Timber;
 
 /**
  * Created by alexshr
- *
- * This container is like a form for any amount of ValidTextInputLayout inside (on any deep).
+ * <p>
+ * This scroll container is like a form for any amount of ValidTextInputLayout inside (on any deep).
  * The form is valid  if all fields are valid and subscribers receive info about form validation status.
  * It could be used eg to control  "Save" button state and so on
  */
-public class ValidatedFrameLayout extends FrameLayout {
+public class ValidatedInputForm extends ScrollView {
 
     private boolean isAutoValidated;
 
@@ -30,23 +30,23 @@ public class ValidatedFrameLayout extends FrameLayout {
 
     private List<ValidatedTextInputLayout> inputLayouts;
 
-    public ValidatedFrameLayout(Context context) {
+    public ValidatedInputForm(Context context) {
         this(context, null, 0);
     }
 
-    public ValidatedFrameLayout(Context context, AttributeSet attrs) {
+    public ValidatedInputForm(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ValidatedFrameLayout(Context context, AttributeSet attrs, int defStyle) {
+    public ValidatedInputForm(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         if (isInEditMode()) return; //for layout editor
 
         TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.ValidatedFrameLayout, 0, 0);
+                R.styleable.ValidatedInputForm, 0, 0);
 
-        isAutoValidated = a.getBoolean(R.styleable.ValidatedFrameLayout_auto_validation, true);
+        isAutoValidated = a.getBoolean(R.styleable.ValidatedInputForm_auto_validation, true);
         a.recycle();
     }
 
@@ -73,13 +73,17 @@ public class ValidatedFrameLayout extends FrameLayout {
 
         if (isAutoValidated) {
             for (ValidatedTextInputLayout input : inputLayouts) {
-                input.addValidationListener(this::validate);
+                input.addValidationListener(this::check);
             }
         }
     }
 
+    public void validate() {
+//TODO validation for isAutoValidated==false
+    }
+
     //call from ValidatedTextInputLayout
-    public void validate(ValidatedTextInputLayout sourceInput) {
+    public void check(ValidatedTextInputLayout sourceInput) {
         Boolean isValidBefore = isValid;
         isValid = sourceInput == null || sourceInput.isValid();
 
@@ -97,10 +101,9 @@ public class ValidatedFrameLayout extends FrameLayout {
     }
 
     //call from outside
-    public void validate() {
-        validate(null);
+    public void check() {
+        check(null);
     }
-
 
     public boolean isValid() {
         return isValid;

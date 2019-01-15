@@ -22,13 +22,18 @@ import timber.log.Timber;
 
 /**
  * Created by alexshr
+ * <p>
+ * TextInputLayout uses TextWatcher for validation, formatting, masking and so on
+ * <p>
  * Use attr "regexp" if you need validation
- *
+ * <p>
  * Special behaviour for "phone" and "email" types without regexp:
  * - they are validated by google classes
  * - in addition phone numbers are masked and formatted by google PhoneNumberFormattingTextWatcher
- *   and I add "+" for greater clarity
+ * and I add "+" for greater clarity
  * - Locale.getDefault().getCountry() is used for phone handling
+ * <p>
+ * TODO support validation by submitting (eg "ok" btn)
  */
 public class ValidatedTextInputLayout extends TextInputLayout {
 
@@ -53,7 +58,6 @@ public class ValidatedTextInputLayout extends TextInputLayout {
         super(context, attrs, defStyle);
 
         if (isInEditMode()) return; //for layout editor
-
 
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ValidatedTextInputLayout, 0, 0);

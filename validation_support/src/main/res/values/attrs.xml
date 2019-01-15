@@ -7,7 +7,7 @@
 
     </declare-styleable>
 
-    <declare-styleable name="ValidatedFrameLayout">
+    <declare-styleable name="ValidatedInputForm">
 
         <attr name="auto_validation" format="boolean" />
 

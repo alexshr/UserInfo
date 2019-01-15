@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.android.material.card.MaterialCardView;
-import com.otus.alexshr.validation_support.ValidatedFrameLayout;
+import com.otus.alexshr.validation_support.ValidatedInputForm;
 import com.otus.alexshr.validation_support.ValidatedTextInputLayout;
 
 import androidx.annotation.NonNull;
@@ -33,7 +33,7 @@ public class InputFragment extends Fragment {
     @BindView(R.id.materialCardView)
     MaterialCardView materialCardView;
     @BindView(R.id.validatedForm)
-    ValidatedFrameLayout validatedForm;
+    ValidatedInputForm validatedForm;
 
     private MainViewModel viewModel;
 
@@ -41,9 +41,6 @@ public class InputFragment extends Fragment {
 
     private Manager manager;
 
-    public InputFragment() {
-        setRetainInstance(true);
-    }
 
     @OnClick(R.id.okBtn)
     void submit() {
@@ -66,17 +63,16 @@ public class InputFragment extends Fragment {
         viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
 
         //for back stack
-        if (viewModel.getUser() != null) {
+        if (savedInstanceState==null&&viewModel.getUser()!=null) {
             nameInput.setText(viewModel.getUser().getName());
             emailInput.setText(viewModel.getUser().getEmail());
             phoneInput.setText(viewModel.getUser().getPhone());
-            viewModel.setUser(null);
         }
 
         manager = (Manager) getActivity();
 
         validatedForm.addValidationListener(okBtn::setEnabled);
-        validatedForm.validate();
+        validatedForm.check();
 
         return view;
     }

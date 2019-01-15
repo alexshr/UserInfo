@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.otus.alexshr.validation_support.ValidatedFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.otus.alexshr.validation_support.ValidatedInputForm xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/validatedForm"
@@ -29,6 +29,7 @@
                 app:regexp="@string/regexp_nonempty">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/nameInputEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -45,6 +46,7 @@
                 app:helperText="@string/helper_email">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailInputEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
@@ -61,6 +63,7 @@
                 app:helperText="@string/helper_phone">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/phoneInputEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:digits="0123456789+- "
@@ -79,4 +82,4 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-</com.otus.alexshr.validation_support.ValidatedFrameLayout>
+</com.otus.alexshr.validation_support.ValidatedInputForm>
