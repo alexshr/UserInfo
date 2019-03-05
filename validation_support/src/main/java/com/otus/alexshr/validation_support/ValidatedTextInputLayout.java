@@ -5,12 +5,13 @@ import android.content.res.TypedArray;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Patterns;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewAfterTextChangeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 import androidx.core.util.Consumer;
+import io.reactivex.Observable;
 import timber.log.Timber;
 
 /**
@@ -69,20 +71,12 @@ public class ValidatedTextInputLayout extends TextInputLayout {
         a.recycle();
     }
 
-    @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
+    private boolean isPhoneSDKPattern() {
+        return validationPattern == null && getEditText().getInputType() == InputType.TYPE_CLASS_PHONE;
+    }
 
-        if (isInEditMode()) return;
-
-        helperText = getHelperText() + "";
-        setHelperTextEnabled(false);
-
-        if (validationPattern == null && (getEditText().getInputType() & InputType.TYPE_MASK_VARIATION) == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
-            validationPattern = Patterns.EMAIL_ADDRESS;
-        }
-
-        if (validationPattern == null && getEditText().getInputType() == InputType.TYPE_CLASS_PHONE) {
+    private void maskPhone() {
+        if (isPhoneSDKPattern()) {
             getEditText().addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
             //adding "+" to phone number
@@ -96,26 +90,62 @@ public class ValidatedTextInputLayout extends TextInputLayout {
                 }
             });
         }
-
-        //validation
-        if (validationPattern != null || getEditText().getInputType() == InputType.TYPE_CLASS_PHONE) {
-            getEditText().addTextChangedListener(new TextSimplyWatcher() {
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String str = s.toString().trim();
-                    validate(str);
-                }
-            });
-        }
-
-        validationListeners.add(input -> {
-            setError(input.isValid() ? null : helperText);
-        });
-
-        validate(getEditText().getText().toString());
     }
 
-    public void validate(String str) {
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+        if (isInEditMode()) return;
+
+        helperText = getHelperText() + "";
+        setHelperTextEnabled(false);
+
+        if (validationPattern == null && (getEditText().getInputType() & InputType.TYPE_MASK_VARIATION) == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
+            validationPattern = Patterns.EMAIL_ADDRESS;
+        }
+
+        if (isPhoneSDKPattern()) {
+            getEditText().addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+        }
+
+        //validate(getEditText().getText().toString());//внимание на первую проверку!!!!
+    }
+
+    private Editable addPhonePrefixIfNeeded(Editable ed) {
+        if (isPhoneSDKPattern() && isPhoneSDKPattern() && ed.length() > 0 && ed.charAt(0) != '+')
+            ed.insert(0, "+");
+        return ed;
+    }
+
+    public Observable<Boolean> getValidationObservable() {
+
+        return RxTextView.afterTextChangeEvents(getEditText())
+                .map(TextViewAfterTextChangeEvent::editable)
+                .map(this::addPhonePrefixIfNeeded)
+                .map(Editable::toString)
+                .map(String::trim)
+                .map(this::check)
+                .doOnNext(isValid -> setError(isValid ? null : helperText));
+    }
+
+    public boolean check(String str) {
+        boolean isValid = true;
+        if (getEditText().getInputType() == InputType.TYPE_CLASS_PHONE) {
+            str = str.replaceAll("[^+0-9]", "");
+
+            isValid = validationPattern == null ?
+                    PhoneNumberUtil.getInstance().isPossibleNumber(str, Locale.getDefault().getCountry()) :
+                    validationPattern.matcher(str).matches();
+        } else if (validationPattern != null) {
+            isValid = validationPattern.matcher(str).matches();
+        }
+        Timber.d("hint=%s, str=%s; isValid=%s; country=%s", getHint(), str, isValid, Locale.getDefault().getCountry());
+
+        return isValid;
+    }
+
+    /*public void validate(String str) {
 
         Boolean isValidBefore = isValid;
         isValid = true;
@@ -136,7 +166,7 @@ public class ValidatedTextInputLayout extends TextInputLayout {
             for (Consumer<ValidatedTextInputLayout> listener : validationListeners)
                 listener.accept(this);
         }
-    }
+    }*/
 
     public boolean isValid() {
         return isValid;
@@ -156,25 +186,5 @@ public class ValidatedTextInputLayout extends TextInputLayout {
 
     public void setText(String text) {
         getEditText().setText(text);
-    }
-
-    private static class TextSimplyWatcher implements TextWatcher {
-
-        private boolean isFormatting;
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
     }
 }

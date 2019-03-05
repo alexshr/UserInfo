@@ -5,7 +5,7 @@ import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements Manager {
+public class MainActivity extends AppCompatActivity implements Navigator {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
