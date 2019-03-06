@@ -75,23 +75,6 @@ public class ValidatedTextInputLayout extends TextInputLayout {
         return validationPattern == null && getEditText().getInputType() == InputType.TYPE_CLASS_PHONE;
     }
 
-    private void maskPhone() {
-        if (isPhoneSDKPattern()) {
-            getEditText().addTextChangedListener(new PhoneNumberFormattingTextWatcher());
-
-            //adding "+" to phone number
-            getEditText().addTextChangedListener(new TextSimplyWatcher() {
-                @Override
-                public void afterTextChanged(Editable s) {
-                    String text = s.toString();
-                    if (text.length() > 0 && text.charAt(0) != '+') {
-                        s.insert(0, "+");
-                    }
-                }
-            });
-        }
-    }
-
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -124,7 +107,6 @@ public class ValidatedTextInputLayout extends TextInputLayout {
                 .map(TextViewAfterTextChangeEvent::editable)
                 .map(this::addPhonePrefixIfNeeded)
                 .map(Editable::toString)
-                .map(String::trim)
                 .map(this::check)
                 .doOnNext(isValid -> setError(isValid ? null : helperText));
     }
@@ -132,7 +114,7 @@ public class ValidatedTextInputLayout extends TextInputLayout {
     public boolean check(String str) {
         boolean isValid = true;
         if (getEditText().getInputType() == InputType.TYPE_CLASS_PHONE) {
-            str = str.replaceAll("[^+0-9]", "");
+            str = str.trim().replaceAll("[^+0-9]", "");
 
             isValid = validationPattern == null ?
                     PhoneNumberUtil.getInstance().isPossibleNumber(str, Locale.getDefault().getCountry()) :
@@ -145,40 +127,6 @@ public class ValidatedTextInputLayout extends TextInputLayout {
         return isValid;
     }
 
-    /*public void validate(String str) {
-
-        Boolean isValidBefore = isValid;
-        isValid = true;
-
-        if (getEditText().getInputType() == InputType.TYPE_CLASS_PHONE) {
-            str = str.replaceAll("[^+0-9]", "");
-
-            isValid = validationPattern == null ?
-                    PhoneNumberUtil.getInstance().isPossibleNumber(str, Locale.getDefault().getCountry()) :
-                    validationPattern.matcher(str).matches();
-        } else if (validationPattern != null) {
-            isValid = validationPattern.matcher(str).matches();
-        }
-
-        Timber.d("hint=%s, str=%s, isValidBefore=%s; isValid=%s; country=%s", getHint(), str, isValidBefore, isValid, Locale.getDefault().getCountry());
-
-        if (isValidBefore == null || isValid != isValidBefore) {
-            for (Consumer<ValidatedTextInputLayout> listener : validationListeners)
-                listener.accept(this);
-        }
-    }*/
-
-    public boolean isValid() {
-        return isValid;
-    }
-
-    public void addValidationListener(Consumer<ValidatedTextInputLayout> validationListener) {
-        validationListeners.add(validationListener);
-    }
-
-    public void removeValidationListener(Consumer<Boolean> validationListener) {
-        validationListeners.remove(validationListener);
-    }
 
     public String getText() {
         return getEditText().getText().toString();

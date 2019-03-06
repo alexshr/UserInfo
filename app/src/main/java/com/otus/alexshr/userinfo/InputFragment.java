@@ -42,8 +42,8 @@ public class InputFragment extends Fragment {
 
         nav = (Navigator) getActivity();
 
-        binding.validatedForm.addValidationListener(binding.okBtn::setEnabled);
-        binding.validatedForm.check();
+        //binding.validatedForm.addValidationListener(binding.okBtn::setEnabled);
+        //binding.validatedForm.check();
 
         binding.okBtn.setOnClickListener(btn -> {
             viewModel.setUser(new User(binding.nameInput.getText(), binding.emailInput.getText(), binding.phoneInput.getText()));

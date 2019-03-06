@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.core.util.Consumer;
+import io.reactivex.Observable;
 import timber.log.Timber;
 
 /**
@@ -72,48 +73,24 @@ public class ValidatedInputForm extends ScrollView {
         inputLayouts = getViewsByType(this, ValidatedTextInputLayout.class);
 
         if (isAutoValidated) {
+
+            List<Observable<Boolean>> list = new ArrayList<Observable<Boolean>>();
+
             for (ValidatedTextInputLayout input : inputLayouts) {
-                input.addValidationListener(this::check);
+                list.add(input.getValidationObservable());
             }
+
+            Observable.combineLatest(list, results -> {
+                for (Object res : results) {
+                    if (!(Boolean) res) return false;
+                }
+                return true;
+            }).subscribe(isValid -> Timber.d("isValid=%s", isValid));
+
+
         }
     }
 
-    public void validate() {
-//TODO validation for isAutoValidated==false
-    }
 
-    //call from ValidatedTextInputLayout
-    public void check(ValidatedTextInputLayout sourceInput) {
-        Boolean isValidBefore = isValid;
-        isValid = sourceInput == null || sourceInput.isValid();
 
-        for (ValidatedTextInputLayout input : inputLayouts) {
-            if (!isValid) break;
-            isValid = input.isValid();
-
-            Timber.d("checking input (hint=%s) isValid=%s", input.getHint(), input.isValid());
-        }
-
-        Timber.d("isValidBefore=%s; isValid=%s", isValidBefore, isValid);
-        if (isValidBefore == null || isValid != isValidBefore) {
-            for (Consumer<Boolean> listener : validationListeners) listener.accept(isValid);
-        }
-    }
-
-    //call from outside
-    public void check() {
-        check(null);
-    }
-
-    public boolean isValid() {
-        return isValid;
-    }
-
-    public void addValidationListener(Consumer<Boolean> listener) {
-        validationListeners.add(listener);
-    }
-
-    public void removeValidationListener(Consumer<Boolean> listener) {
-        validationListeners.remove(listener);
-    }
 }
