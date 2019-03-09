@@ -1,11 +1,12 @@
 package com.otus.alexshr.userinfo;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import lombok.Getter;
 import lombok.Setter;
 
-public class MainViewModel extends ViewModel {
+public class InputViewModel extends ViewModel {
     @Getter
     @Setter
-    private User user;
+    private LiveData<Boolean> validationLiveData;
 }

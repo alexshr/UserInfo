@@ -75,6 +75,10 @@ public class ValidatedTextInputLayout extends TextInputLayout {
         return validationPattern == null && getEditText().getInputType() == InputType.TYPE_CLASS_PHONE;
     }
 
+    private boolean isEmailSDKPattern() {
+        return validationPattern == null && (getEditText().getInputType() & InputType.TYPE_MASK_VARIATION) == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
+    }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -84,7 +88,7 @@ public class ValidatedTextInputLayout extends TextInputLayout {
         helperText = getHelperText() + "";
         setHelperTextEnabled(false);
 
-        if (validationPattern == null && (getEditText().getInputType() & InputType.TYPE_MASK_VARIATION) == InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS) {
+        if (isEmailSDKPattern()) {
             validationPattern = Patterns.EMAIL_ADDRESS;
         }
 
@@ -108,7 +112,11 @@ public class ValidatedTextInputLayout extends TextInputLayout {
                 .map(this::addPhonePrefixIfNeeded)
                 .map(Editable::toString)
                 .map(this::check)
-                .doOnNext(isValid -> setError(isValid ? null : helperText));
+                .doOnNext(this::setError);
+    }
+
+    private void setError(boolean isValid) {
+        setError(isValid ? null : helperText);
     }
 
     public boolean check(String str) {

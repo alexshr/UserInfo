@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.otus.alexshr.userinfo.MainViewModel" />
+            type="com.otus.alexshr.userinfo.ActivityViewModel" />
     </data>
 
     <FrameLayout

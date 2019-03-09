@@ -16,7 +16,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 public class InputFragment extends Fragment {
 
-    private MainViewModel viewModel;
+    private ActivityViewModel activityViewModel;
+    private InputViewModel inputViewModel;
 
     private Navigator nav;
 
@@ -30,23 +31,25 @@ public class InputFragment extends Fragment {
 
         InputFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.input_fragment,
                 container, false);
+        binding.setLifecycleOwner(this);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        activityViewModel = ViewModelProviders.of(getActivity()).get(ActivityViewModel.class);
+        inputViewModel = ViewModelProviders.of(this).get(InputViewModel.class);
 
         //for back stack
-        if (savedInstanceState == null && viewModel.getUser() != null) {
-            binding.nameInput.setText(viewModel.getUser().getName());
-            binding.emailInput.setText(viewModel.getUser().getEmail());
-            binding.phoneInput.setText(viewModel.getUser().getPhone());
+        if (savedInstanceState == null && activityViewModel.getUser() != null) {
+            binding.nameInput.setText(activityViewModel.getUser().getName());
+            binding.emailInput.setText(activityViewModel.getUser().getEmail());
+            binding.phoneInput.setText(activityViewModel.getUser().getPhone());
         }
 
         nav = (Navigator) getActivity();
 
-        //binding.validatedForm.addValidationListener(binding.okBtn::setEnabled);
-        //binding.validatedForm.check();
+        inputViewModel.setValidationLiveData(binding.validatedForm.getValidationLiveData());
+        binding.setViewModel(inputViewModel);
 
         binding.okBtn.setOnClickListener(btn -> {
-            viewModel.setUser(new User(binding.nameInput.getText(), binding.emailInput.getText(), binding.phoneInput.getText()));
+            activityViewModel.setUser(new User(binding.nameInput.getText(), binding.emailInput.getText(), binding.phoneInput.getText()));
 
             nav.showDisplayFragment();
         });

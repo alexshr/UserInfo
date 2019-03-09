@@ -10,9 +10,10 @@ import android.widget.ScrollView;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.core.util.Consumer;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.LiveDataReactiveStreams;
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Observable;
-import timber.log.Timber;
 
 /**
  * Created by alexshr
@@ -23,13 +24,7 @@ import timber.log.Timber;
  */
 public class ValidatedInputForm extends ScrollView {
 
-    private boolean isAutoValidated;
-
-    private Boolean isValid;
-
-    private List<Consumer<Boolean>> validationListeners = new ArrayList<>();
-
-    private List<ValidatedTextInputLayout> inputLayouts;
+    private LiveData<Boolean> validationLiveData;
 
     public ValidatedInputForm(Context context) {
         this(context, null, 0);
@@ -47,7 +42,6 @@ public class ValidatedInputForm extends ScrollView {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ValidatedInputForm, 0, 0);
 
-        isAutoValidated = a.getBoolean(R.styleable.ValidatedInputForm_auto_validation, true);
         a.recycle();
     }
 
@@ -70,27 +64,25 @@ public class ValidatedInputForm extends ScrollView {
         super.onFinishInflate();
         if (isInEditMode()) return;
 
-        inputLayouts = getViewsByType(this, ValidatedTextInputLayout.class);
+        List<ValidatedTextInputLayout> inputLayouts = getViewsByType(this, ValidatedTextInputLayout.class);
 
-        if (isAutoValidated) {
+        List<Observable<Boolean>> list = new ArrayList<>();
 
-            List<Observable<Boolean>> list = new ArrayList<Observable<Boolean>>();
-
-            for (ValidatedTextInputLayout input : inputLayouts) {
-                list.add(input.getValidationObservable());
-            }
-
-            Observable.combineLatest(list, results -> {
-                for (Object res : results) {
-                    if (!(Boolean) res) return false;
-                }
-                return true;
-            }).subscribe(isValid -> Timber.d("isValid=%s", isValid));
-
-
+        for (ValidatedTextInputLayout input : inputLayouts) {
+            list.add(input.getValidationObservable());
         }
+
+        Observable<Boolean> validationObservable = Observable.combineLatest(list, results -> {
+            for (Object res : results) {
+                if (!(Boolean) res) return false;
+            }
+            return true;
+        });
+
+        validationLiveData = LiveDataReactiveStreams.fromPublisher(validationObservable.toFlowable(BackpressureStrategy.LATEST));
     }
 
-
-
+    public LiveData<Boolean> getValidationLiveData() {
+        return validationLiveData;
+    }
 }

@@ -19,7 +19,7 @@ import androidx.lifecycle.ViewModelProviders;
  */
 public class DisplayFragment extends Fragment {
 
-    private MainViewModel viewModel;
+    private ActivityViewModel viewModel;
 
     @Nullable
     @Override
@@ -32,7 +32,7 @@ public class DisplayFragment extends Fragment {
         DisplayFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.display_fragment,
                 container, false);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(ActivityViewModel.class);
         binding.setViewModel(viewModel);
 
         return binding.getRoot();
