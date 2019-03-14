@@ -11,8 +11,8 @@ import timber.log.Timber;
 @Module
 class InputFragmentModule {
 
-    @Provides
     @InputFragmentScope
+    @Provides
     InputViewModel provideInputViewModel(InputFragment fragment) {
         Timber.d("creating InputViewModel");
         return ViewModelProviders.of(fragment).get(InputViewModel.class);

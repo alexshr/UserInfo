@@ -15,12 +15,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import timber.log.Timber;
 
 public class InputFragment extends Fragment implements Injectable {
-
-    //private ActivityViewModel activityViewModel;
-    //private InputViewModel inputViewModel;
 
     private Navigator nav;
 
@@ -42,12 +38,11 @@ public class InputFragment extends Fragment implements Injectable {
                 container, false);
         binding.setLifecycleOwner(this);
 
-        //activityViewModel = ViewModelProviders.of(getActivity()).get(ActivityViewModel.class);
-
-        Timber.d("InputViewModel: %s", inputViewModel);
-        Timber.d("ActivityViewModel: %s", activityViewModel);
-
-        //inputViewModel = ViewModelProviders.of(this).get(InputViewModel.class);
+        /*checking scope
+        ViewModel viewModel = ViewModelProviders.of(getActivity()).get(ActivityViewModel.class);
+        Timber.d("ActivityViewModel di: %s, local: %s; is the same: %s", activityViewModel, viewModel, activityViewModel == viewModel);
+        viewModel = ViewModelProviders.of(this).get(InputViewModel.class);
+        Timber.d("InputViewModel di: %s, local: %s; is the same: %s", inputViewModel, viewModel, inputViewModel == viewModel);*/
 
         //for back stack
         if (savedInstanceState == null && activityViewModel.getUser() != null) {

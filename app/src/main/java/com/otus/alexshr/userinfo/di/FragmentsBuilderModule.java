@@ -9,10 +9,10 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class FragmentsBuilderModule {
 
-    @ContributesAndroidInjector(modules = InputFragmentModule.class)
     @InputFragmentScope
+    @ContributesAndroidInjector(modules = InputFragmentModule.class)
     abstract InputFragment contributeInputFragment();
 
-    @ContributesAndroidInjector()
+    @ContributesAndroidInjector
     abstract DisplayFragment contributeDisplayFragment();
 }
