@@ -6,20 +6,29 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.otus.alexshr.userinfo.databinding.InputFragmentBinding;
+import com.otus.alexshr.userinfo.di.Injectable;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import timber.log.Timber;
 
-public class InputFragment extends Fragment {
+public class InputFragment extends Fragment implements Injectable {
 
-    private ActivityViewModel activityViewModel;
-    private InputViewModel inputViewModel;
+    //private ActivityViewModel activityViewModel;
+    //private InputViewModel inputViewModel;
 
     private Navigator nav;
+
+    @Inject
+    InputViewModel inputViewModel;
+
+    @Inject
+    ActivityViewModel activityViewModel;
 
     @Nullable
     @Override
@@ -33,8 +42,12 @@ public class InputFragment extends Fragment {
                 container, false);
         binding.setLifecycleOwner(this);
 
-        activityViewModel = ViewModelProviders.of(getActivity()).get(ActivityViewModel.class);
-        inputViewModel = ViewModelProviders.of(this).get(InputViewModel.class);
+        //activityViewModel = ViewModelProviders.of(getActivity()).get(ActivityViewModel.class);
+
+        Timber.d("InputViewModel: %s", inputViewModel);
+        Timber.d("ActivityViewModel: %s", activityViewModel);
+
+        //inputViewModel = ViewModelProviders.of(this).get(InputViewModel.class);
 
         //for back stack
         if (savedInstanceState == null && activityViewModel.getUser() != null) {
