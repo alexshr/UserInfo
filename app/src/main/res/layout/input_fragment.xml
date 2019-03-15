@@ -81,11 +81,11 @@
 
                 <Button
                     android:id="@+id/okBtn"
+                    android:tag="validation_listener"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/input_btn_margin_top"
-                    android:enabled="@{viewModel.validationLiveData}"
                     android:text="@string/ok_btn_text" />
 
             </LinearLayout>

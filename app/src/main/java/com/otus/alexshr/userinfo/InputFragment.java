@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProviders;
 public class InputFragment extends Fragment {
 
     private ActivityViewModel activityViewModel;
-    private InputViewModel inputViewModel;
 
     private Navigator nav;
 
@@ -34,7 +33,6 @@ public class InputFragment extends Fragment {
         binding.setLifecycleOwner(this);
 
         activityViewModel = ViewModelProviders.of(getActivity()).get(ActivityViewModel.class);
-        inputViewModel = ViewModelProviders.of(this).get(InputViewModel.class);
 
         //for back stack
         if (savedInstanceState == null && activityViewModel.getUser() != null) {
@@ -44,9 +42,6 @@ public class InputFragment extends Fragment {
         }
 
         nav = (Navigator) getActivity();
-
-        inputViewModel.setValidationLiveData(binding.validatedForm.getValidationLiveData());
-        binding.setViewModel(inputViewModel);
 
         binding.okBtn.setOnClickListener(btn -> {
             activityViewModel.setUser(new User(binding.nameInput.getText(), binding.emailInput.getText(), binding.phoneInput.getText()));

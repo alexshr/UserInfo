@@ -1,10 +1,12 @@
 package com.otus.alexshr.validation_support;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ScrollView;
 
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import io.reactivex.Observable;
  */
 public class ValidatedInputForm extends ScrollView {
 
+    private String listenerTag = "validation_listener";
+
     private LiveData<Boolean> validationLiveData;
 
     public ValidatedInputForm(Context context) {
@@ -42,6 +46,9 @@ public class ValidatedInputForm extends ScrollView {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ValidatedInputForm, 0, 0);
 
+        if (a.hasValue(R.styleable.ValidatedInputForm_listener_tag)) {
+            listenerTag = a.getString(R.styleable.ValidatedInputForm_listener_tag);
+        }
         a.recycle();
     }
 
@@ -59,6 +66,7 @@ public class ValidatedInputForm extends ScrollView {
         return result;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -80,6 +88,9 @@ public class ValidatedInputForm extends ScrollView {
         });
 
         validationLiveData = LiveDataReactiveStreams.fromPublisher(validationObservable.toFlowable(BackpressureStrategy.LATEST));
+
+        Button button = findViewWithTag(listenerTag);
+        validationObservable.subscribe(button::setEnabled);
     }
 
     public LiveData<Boolean> getValidationLiveData() {

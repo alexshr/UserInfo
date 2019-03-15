@@ -9,7 +9,7 @@
 
     <declare-styleable name="ValidatedInputForm">
 
-        <attr name="auto_validation" format="boolean" />
+        <attr name="listener_tag" format="string" />
 
     </declare-styleable>
 
