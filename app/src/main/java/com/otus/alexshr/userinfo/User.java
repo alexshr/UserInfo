@@ -1,11 +1,20 @@
 package com.otus.alexshr.userinfo;
 
+import javax.inject.Inject;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 public class User {
 
-    @NonNull
-    private String name, email, phone;
+    private MutableLiveData<String> name = new MutableLiveData<>(),
+            email = new MutableLiveData<>(),
+            phone = new MutableLiveData<>();
+    private LiveData<Boolean> isValid = new MutableLiveData<>();
+
+    @Inject
+    public User() {
+    }
 }

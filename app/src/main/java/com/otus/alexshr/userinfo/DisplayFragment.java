@@ -35,10 +35,6 @@ public class DisplayFragment extends Fragment implements Injectable {
         DisplayFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.display_fragment,
                 container, false);
 
-        /*checking scope
-        ViewModel viewModel = ViewModelProviders.of(getActivity()).get(ActivityViewModel.class);
-        Timber.d("ActivityViewModel di: %s, local: %s; is the same: %s", activityViewModel, viewModel, activityViewModel == viewModel);*/
-
         binding.setViewModel(activityViewModel);
 
         return binding.getRoot();

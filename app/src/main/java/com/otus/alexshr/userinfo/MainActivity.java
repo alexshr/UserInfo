@@ -12,19 +12,32 @@ import androidx.fragment.app.Fragment;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements Navigator, Injectable, HasSupportFragmentInjector {
+public class MainActivity extends AppCompatActivity implements Injectable, HasSupportFragmentInjector {
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
+    @Inject
+    Navigator navigator;
+
+    @Inject
+    ActivityViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewModel.init(this);
+
+        Timber.d(" ");
+
+        navigator.setActivity(this);
         setContentView(R.layout.main_activity);
 
         if (savedInstanceState == null) {
-            showInputFragment();
+            navigator.showInputFragment();
         }
     }
 
@@ -40,22 +53,11 @@ public class MainActivity extends AppCompatActivity implements Navigator, Inject
     }
 
     @Override
-    public void showInputFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new InputFragment())
-                .commit();
-    }
-
-    @Override
-    public void showDisplayFragment() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new DisplayFragment())
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
+
+    /*public void showInputFragment(){
+        navigator.showInputFragment(this);
+    }*/
 }

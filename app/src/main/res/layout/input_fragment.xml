@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="viewModel"
-            type="com.otus.alexshr.userinfo.InputViewModel" />
+            name="model"
+            type="com.otus.alexshr.userinfo.ActivityViewModel" />
     </data>
 
     <com.otus.alexshr.validation_support.ValidatedInputForm xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,6 +41,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
+                        android:text="@={model.user.name}"
                         tools:text="Alex" />
                 </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
@@ -58,6 +59,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
+                        android:text="@={model.user.email}"
                         tools:text="a@b.ru" />
                 </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
@@ -76,6 +78,7 @@
                         android:layout_height="wrap_content"
                         android:digits="0123456789+- "
                         android:inputType="phone"
+                        android:text="@={model.user.phone}"
                         tools:text="+777777" />
                 </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
@@ -85,7 +88,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/input_btn_margin_top"
-                    android:enabled="@{viewModel.validationLiveData}"
+                    android:enabled="@{model.user.isValid}"
+                    android:onClick="@{()->model.navigator.showDisplayFragment()}"
                     android:text="@string/ok_btn_text" />
 
             </LinearLayout>
