@@ -35,14 +35,11 @@ import timber.log.Timber;
  * and I add "+" for greater clarity
  * - Locale.getDefault().getCountry() is used for phone handling
  * <p>
- * TODO support validation by submitting (eg "ok" btn)
  */
 public class ValidatedTextInputLayout extends TextInputLayout {
 
     //avoid unnecessary regexp compilation
     private Pattern validationPattern;
-
-    private Boolean isValid;
 
     private String helperText = "";
 
@@ -96,7 +93,6 @@ public class ValidatedTextInputLayout extends TextInputLayout {
             getEditText().addTextChangedListener(new PhoneNumberFormattingTextWatcher());
         }
 
-        //validate(getEditText().getText().toString());//внимание на первую проверку!!!!
     }
 
     private Editable addPhonePrefixIfNeeded(Editable ed) {
@@ -134,7 +130,6 @@ public class ValidatedTextInputLayout extends TextInputLayout {
 
         return isValid;
     }
-
 
     public String getText() {
         return getEditText().getText().toString();

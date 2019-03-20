@@ -65,38 +65,6 @@ public class ValidatedInputForm extends FrameLayout {
         return result;
     }
 
-    /*public static Button findSubmitButton(ViewGroup root, String tag) {
-        View view = root.findViewWithTag(tag);
-        if (view instanceof Button) {
-            return (Button) view;
-        } else {
-            final int childCount = root.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                final View child = root.getChildAt(i);
-                if (child instanceof ViewGroup) {
-                    return findSubmitButton((ViewGroup) child, tag);
-                }
-            }
-            return null;
-        }
-    }*/
-
-    /*private static Button findSubmitButton(ViewGroup root, String tag) {
-        Timber.d("started root: %s",root);
-        final int childCount = root.getChildCount();
-        for (int i = 0; i < childCount; i++) {
-            final View child = root.getChildAt(i);
-            if (child instanceof ViewGroup) {
-                return findSubmitButton((ViewGroup) child, tag);
-            } else {
-                Timber.d("child: %s",child);
-                if (child.getTag() != null && child.getTag().equals(tag) && child instanceof Button) {
-                    return (Button) child;
-                }
-            }
-        }
-        return null;
-    }*/
 
     private static ArrayList<View> getViewsByTag(ViewGroup root, String tag) {
         ArrayList<View> views = new ArrayList<View>();
