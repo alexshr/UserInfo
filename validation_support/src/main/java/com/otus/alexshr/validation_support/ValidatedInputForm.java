@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ import io.reactivex.Observable;
  */
 public class ValidatedInputForm extends FrameLayout {
 
+    Integer submitId;
+
     private LiveData<Boolean> validationLiveData;
 
     public ValidatedInputForm(Context context) {
@@ -42,10 +45,13 @@ public class ValidatedInputForm extends FrameLayout {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ValidatedInputForm, 0, 0);
 
+        if (a.hasValue(R.styleable.ValidatedInputForm_submit_id)) {
+            submitId = a.getResourceId(R.styleable.ValidatedInputForm_submit_id, 0);
+        }
         a.recycle();
     }
 
-    public static <T extends View> ArrayList<T> getViewsByType(ViewGroup root, Class<T> tClass) {
+    private static <T extends View> ArrayList<T> getViewsByType(ViewGroup root, Class<T> tClass) {
         final ArrayList<T> result = new ArrayList<>();
         int childCount = root.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -57,6 +63,65 @@ public class ValidatedInputForm extends FrameLayout {
                 result.add(tClass.cast(child));
         }
         return result;
+    }
+
+    /*public static Button findSubmitButton(ViewGroup root, String tag) {
+        View view = root.findViewWithTag(tag);
+        if (view instanceof Button) {
+            return (Button) view;
+        } else {
+            final int childCount = root.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = root.getChildAt(i);
+                if (child instanceof ViewGroup) {
+                    return findSubmitButton((ViewGroup) child, tag);
+                }
+            }
+            return null;
+        }
+    }*/
+
+    /*private static Button findSubmitButton(ViewGroup root, String tag) {
+        Timber.d("started root: %s",root);
+        final int childCount = root.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = root.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                return findSubmitButton((ViewGroup) child, tag);
+            } else {
+                Timber.d("child: %s",child);
+                if (child.getTag() != null && child.getTag().equals(tag) && child instanceof Button) {
+                    return (Button) child;
+                }
+            }
+        }
+        return null;
+    }*/
+
+    private static ArrayList<View> getViewsByTag(ViewGroup root, String tag) {
+        ArrayList<View> views = new ArrayList<View>();
+        final int childCount = root.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            final View child = root.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                views.addAll(getViewsByTag((ViewGroup) child, tag));
+            }
+
+            final Object tagObj = child.getTag();
+            if (tagObj != null && tagObj.equals(tag)) {
+                views.add(child);
+            }
+        }
+        return views;
+    }
+
+    private Button findSubmitBtn() {
+
+        if (submitId != null) {
+            View view = findViewById(submitId);
+            if (view instanceof Button) return (Button) view;
+        }
+        return null;
     }
 
     @Override
@@ -80,6 +145,9 @@ public class ValidatedInputForm extends FrameLayout {
         });
 
         validationLiveData = LiveDataReactiveStreams.fromPublisher(validationObservable.toFlowable(BackpressureStrategy.LATEST));
+
+        Button button = findSubmitBtn();
+        if (button != null) validationObservable.subscribe(button::setEnabled);
     }
 
     public LiveData<Boolean> getValidationLiveData() {

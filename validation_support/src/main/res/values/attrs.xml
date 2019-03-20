@@ -9,7 +9,7 @@
 
     <declare-styleable name="ValidatedInputForm">
 
-        <attr name="auto_validation" format="boolean" />
+        <attr name="submit_id" format="reference" />
 
     </declare-styleable>
 

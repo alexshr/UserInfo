@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import lombok.Data;
 
@@ -18,7 +17,6 @@ public class User {
     private MutableLiveData<String> name = new MutableLiveData<>(),
             email = new MutableLiveData<>(),
             phone = new MutableLiveData<>();
-    private LiveData<Boolean> isValid = new MutableLiveData<>();
 
     @Inject
     public User() {

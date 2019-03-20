@@ -33,8 +33,6 @@ public class InputFragment extends Fragment implements Injectable {
                 container, false);
         binding.setLifecycleOwner(getActivity());
 
-        viewModel.initValidation(binding.validatedForm.getValidationLiveData());
-
         binding.setModel(viewModel);
 
         if (savedInstanceState != null) viewModel.getUser().restoreFrom(savedInstanceState);

@@ -18,6 +18,7 @@
             android:id="@+id/validatedForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:submit_id="@+id/okBtn"
             tools:context=".InputFragment">
 
             <com.google.android.material.card.MaterialCardView
@@ -87,13 +88,13 @@
                     </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
                     <Button
-                        android:id="@+id/okBtn"
+                        android:id="@id/okBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/input_btn_margin_top"
-                        android:enabled="@{model.user.isValid}"
                         android:onClick="@{()->model.navigator.showDisplayFragment()}"
+                        android:tag="validation_listener"
                         android:text="@string/ok_btn_text" />
 
                 </LinearLayout>
