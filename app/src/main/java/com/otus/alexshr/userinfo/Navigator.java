@@ -3,7 +3,6 @@ package com.otus.alexshr.userinfo;
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import timber.log.Timber;
 
 /**
  * Created by alexshr on 09.01.2019.
@@ -23,7 +22,6 @@ public class Navigator {
     }
 
     public void showDisplayFragment() {
-        Timber.d("activity: %s", activity);
         activity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, new DisplayFragment())
                 .addToBackStack(null)
@@ -31,7 +29,7 @@ public class Navigator {
     }
 
     public void setActivity(AppCompatActivity activity) {
-        Timber.d("activity: %s", activity);
+        //Timber.d("activity: %s", activity);
         this.activity = activity;
     }
 }

@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
+import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import io.reactivex.Observable;
  * The form is valid  if all fields are valid and subscribers receive info about form validation status.
  * It could be used eg to control  "Save" button state and so on
  */
-public class ValidatedInputForm extends ScrollView {
+public class ValidatedInputForm extends FrameLayout {
 
     private LiveData<Boolean> validationLiveData;
 

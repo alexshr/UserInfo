@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,92 +10,95 @@
             type="com.otus.alexshr.userinfo.ActivityViewModel" />
     </data>
 
-    <com.otus.alexshr.validation_support.ValidatedInputForm xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/validatedForm"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".InputFragment">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView"
-            style="@style/card"
+        <com.otus.alexshr.validation_support.ValidatedInputForm
+            android:id="@+id/validatedForm"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            tools:context=".InputFragment">
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView"
+                style="@style/card"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <com.otus.alexshr.validation_support.ValidatedTextInputLayout
-                    android:id="@+id/nameInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_name"
-                    app:helperText="@string/helper_name"
-                    app:regexp="@string/regexp_nonempty">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/nameInputEdit"
+                    <com.otus.alexshr.validation_support.ValidatedTextInputLayout
+                        android:id="@+id/nameInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:text="@={model.user.name}"
-                        tools:text="Alex" />
-                </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
+                        android:hint="@string/hint_name"
+                        app:helperText="@string/helper_name"
+                        app:regexp="@string/regexp_nonempty">
 
-                <com.otus.alexshr.validation_support.ValidatedTextInputLayout
-                    android:id="@+id/emailInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:hint="@string/hint_email"
-                    app:helperText="@string/helper_email">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/nameInputEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:text="@={model.user.name}"
+                            tools:text="Alex" />
+                    </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/emailInputEdit"
+                    <com.otus.alexshr.validation_support.ValidatedTextInputLayout
+                        android:id="@+id/emailInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
-                        android:text="@={model.user.email}"
-                        tools:text="a@b.ru" />
-                </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
+                        android:layout_marginTop="@dimen/text_input_margin_top"
+                        android:hint="@string/hint_email"
+                        app:helperText="@string/helper_email">
 
-                <com.otus.alexshr.validation_support.ValidatedTextInputLayout
-                    android:id="@+id/phoneInput"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/text_input_margin_top"
-                    android:hint="@string/hint_phone"
-                    app:helperText="@string/helper_phone">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/emailInputEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:text="@={model.user.email}"
+                            tools:text="a@b.ru" />
+                    </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phoneInputEdit"
+                    <com.otus.alexshr.validation_support.ValidatedTextInputLayout
+                        android:id="@+id/phoneInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:digits="0123456789+- "
-                        android:inputType="phone"
-                        android:text="@={model.user.phone}"
-                        tools:text="+777777" />
-                </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
+                        android:layout_marginTop="@dimen/text_input_margin_top"
+                        android:hint="@string/hint_phone"
+                        app:helperText="@string/helper_phone">
 
-                <Button
-                    android:id="@+id/okBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/input_btn_margin_top"
-                    android:enabled="@{model.user.isValid}"
-                    android:onClick="@{()->model.navigator.showDisplayFragment()}"
-                    android:text="@string/ok_btn_text" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/phoneInputEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789+- "
+                            android:inputType="phone"
+                            android:text="@={model.user.phone}"
+                            tools:text="+777777" />
+                    </com.otus.alexshr.validation_support.ValidatedTextInputLayout>
 
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <Button
+                        android:id="@+id/okBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/input_btn_margin_top"
+                        android:enabled="@{model.user.isValid}"
+                        android:onClick="@{()->model.navigator.showDisplayFragment()}"
+                        android:text="@string/ok_btn_text" />
 
-    </com.otus.alexshr.validation_support.ValidatedInputForm>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </com.otus.alexshr.validation_support.ValidatedInputForm>
+    </ScrollView>
 </layout>

@@ -18,11 +18,8 @@ import androidx.fragment.app.Fragment;
 
 public class InputFragment extends Fragment implements Injectable {
 
-
-
     @Inject
     ActivityViewModel viewModel;
-    private InputFragmentBinding binding;
 
     @Nullable
     @Override
@@ -32,14 +29,22 @@ public class InputFragment extends Fragment implements Injectable {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.input_title);
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.input_fragment,
+        InputFragmentBinding binding = DataBindingUtil.inflate(inflater, R.layout.input_fragment,
                 container, false);
         binding.setLifecycleOwner(getActivity());
 
-        viewModel.getUser().setIsValid(binding.validatedForm.getValidationLiveData());
+        viewModel.initValidation(binding.validatedForm.getValidationLiveData());
 
         binding.setModel(viewModel);
 
+        if (savedInstanceState != null) viewModel.getUser().restoreFrom(savedInstanceState);
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        viewModel.getUser().saveTo(outState);
     }
 }

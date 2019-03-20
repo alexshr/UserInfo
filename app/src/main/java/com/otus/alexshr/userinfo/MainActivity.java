@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements Injectable, HasSu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel.init(this);
+        viewModel.initNavigator(this);
 
         Timber.d(" ");
 
@@ -56,8 +56,4 @@ public class MainActivity extends AppCompatActivity implements Injectable, HasSu
     public AndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
     }
-
-    /*public void showInputFragment(){
-        navigator.showInputFragment(this);
-    }*/
 }
