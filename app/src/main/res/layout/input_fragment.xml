@@ -94,7 +94,6 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="@dimen/input_btn_margin_top"
                         android:onClick="@{()->model.navigator.showDisplayFragment()}"
-                        android:tag="validation_listener"
                         android:text="@string/ok_btn_text" />
 
                 </LinearLayout>
